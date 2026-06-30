@@ -124,7 +124,7 @@ function handleLogin() {
     btn.textContent = 'Cargando...';
 
     // Petición a Spring Boot
-    fetch('http://pizzeria-mamamia-production-5cf6.up.railway.app/api/usuarios/login', {
+    fetch('https://pizzeria-mamamia-production-5cf6.up.railway.app/api/usuarios/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ correo: email, password: pass })

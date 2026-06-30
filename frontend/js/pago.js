@@ -130,7 +130,7 @@ function simularPago() {
         estado: 0
     };
 
-    fetch('http://pizzeria-mamamia-production-5cf6.up.railway.app/api/pedidos', {
+    fetch('https://pizzeria-mamamia-production-5cf6.up.railway.app/api/pedidos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(pedidoDB)

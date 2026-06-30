@@ -156,6 +156,7 @@ function handleLogin() {
 }
 
 // ── HANDLE REGISTRO ──
+// ── HANDLE REGISTRO (CONECTADO A RAILWAY) ──
 function handleRegister() {
     clearErrors();
     const name = document.getElementById('regName').value.trim();
@@ -175,14 +176,36 @@ function handleRegister() {
     const btn = document.querySelector('#formRegister .btn-submit');
     btn.dataset.label = btn.textContent;
     btn.classList.add('loading');
-    btn.textContent = '';
+    btn.textContent = 'Registrando...';
 
-    setTimeout(() => {
+    // ¡La magia de verdad! Petición a Spring Boot
+    fetch('https://pizzeria-mamamia-production-5cf6.up.railway.app/api/usuarios/registro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            nombre: name,
+            correo: email,
+            password: pass
+        })
+    })
+    .then(response => {
         btn.classList.remove('loading');
         btn.textContent = btn.dataset.label;
-        showToast('🎉 Cuenta creada con éxito');
-        setTimeout(() => location.href = 'index.html', 1200);
-    }, 1400);
+
+        if (response.ok) {
+            showToast('🎉 Cuenta creada DE VERDAD en la nube');
+            // Cambiamos a la pestaña de login para que pueda entrar
+            switchTab('login');
+        } else {
+            throw new Error("El servidor rechazó el registro");
+        }
+    })
+    .catch(error => {
+        btn.classList.remove('loading');
+        btn.textContent = btn.dataset.label;
+        showError('regPass2Err', error.message);
+        showToast('Hubo un problema al conectar', 'error');
+    });
 }
 
 // ── HANDLE ADMIN ──

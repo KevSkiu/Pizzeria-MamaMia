@@ -25,4 +25,16 @@ public class UsuarioController {
             return ResponseEntity.status(401).build();
         }
     }
+
+    // --- ¡NUEVO: ESTO ES LO QUE FALTABA PARA REGISTRAR! ---
+    @PostMapping("/registro")
+    public ResponseEntity<Usuario> registrar(@RequestBody Usuario nuevoUsuario) {
+        // Le asignamos el rol por defecto si no lo tiene
+        if (nuevoUsuario.getRol() == null) {
+            nuevoUsuario.setRol("CLIENTE");
+        }
+        // Guardamos el usuario real en la base de datos de Railway
+        Usuario usuarioGuardado = usuarioRepository.save(nuevoUsuario);
+        return ResponseEntity.ok(usuarioGuardado);
+    }
 }
